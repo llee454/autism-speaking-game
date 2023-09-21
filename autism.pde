@@ -17,6 +17,7 @@ SoundFile backgroundMusic;
 SoundFile chime;
 
 PImage backgroundImage;
+Background starBackground;
 
 // Track spoken text.
 int numLines = 0;
@@ -24,7 +25,7 @@ int numWords = 0;
 
 void setup () {
   size (1000, 1000);
-  frameRate (80);
+  frameRate (100);
 
   // Start the program that listens for verbal commands:
   println ("Start the Listen script in the background. It should be in the Sketch folder named listen.sh");
@@ -46,12 +47,16 @@ void setup () {
   chime = new SoundFile (this, "chime.wav");
 
   backgroundImage = loadImage ("background.jpg");
+  starBackground = new Background ();
 
   println ("Background image by: Image by cartoon-galaxy-background 14350820 Freepik");
 }
 
 void draw () {
   background (backgroundImage);
+
+  starBackground.move ();
+  starBackground.render ();
 
   ship.move ();
   ship.render ();  

@@ -7,7 +7,7 @@ class Star {
     this.img = loadImage ("star.png");
     this.img.resize (100, 100);
     this.pos = new PVector (width/2, 0);
-    this.vel = new PVector (0, 5);
+    this.vel = new PVector (0, 4);
   }
   
   void reset () {
