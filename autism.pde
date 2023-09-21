@@ -24,8 +24,8 @@ int numLines = 0;
 int numWords = 0;
 
 void setup () {
-  size (600, 600);
-  frameRate (60);
+  size (1000, 1000);
+  frameRate (80);
 
   // Start the program that listens for verbal commands:
   println ("Start the Listen script in the background. It should be in the Sketch folder named listen.sh");
@@ -76,9 +76,9 @@ void draw () {
         numLines = lines.length;
         numWords = words.length;
         println ("last word: " + lastWord);
-        switch (lastWord) {
+        switch (lastWord.toLowerCase ()) {
           // go left
-          case "eat":
+          case "cat":
             switch (dest) {
               case DEST_CENTER:
                 dest = DEST_LEFT;
