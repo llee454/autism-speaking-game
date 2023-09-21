@@ -3,6 +3,9 @@ import processing.sound.*;
 Ship ship;
 Star star;
 
+final String leftWord = "cat";
+final String rightWord = "mama";
+
 final int DEST_CENTER = 0;
 final int DEST_LEFT = 1;
 final int DEST_RIGHT = 2;
@@ -10,10 +13,6 @@ int dest = DEST_CENTER;
 
 PVector leftDest, rightDest, centerDest;
 
-Amplitude amp;
-AudioIn in;
-float amplitude;
-float soundThreshold = 0.1;
 SoundFile backgroundMusic;
 SoundFile chime;
 
@@ -29,6 +28,8 @@ void setup () {
 
   // Start the program that listens for verbal commands:
   println ("Start the Listen script in the background. It should be in the Sketch folder named listen.sh");
+  println ("Say " + leftWord + " to fly left.");
+  println ("Say " + rightWord + " to fly right.");
 
   leftDest = new PVector (width/5, 3*height/4);
   rightDest = new PVector (4*width/5, 3*height/4);
@@ -37,11 +38,6 @@ void setup () {
   ship = new Ship ();
   star = new Star ();
 
-  amp = new Amplitude (this);
-  in = new AudioIn (this, 0);
-  in.start();
-  amp.input (in);
-  
   backgroundMusic = new SoundFile (this, "soundtrack.mp3");
   backgroundMusic.loop ();
   backgroundMusic.amp (0.5);
@@ -78,7 +74,7 @@ void draw () {
         println ("last word: " + lastWord);
         switch (lastWord.toLowerCase ()) {
           // go left
-          case "cat":
+          case leftWord:
             switch (dest) {
               case DEST_CENTER:
                 dest = DEST_LEFT;
@@ -92,7 +88,7 @@ void draw () {
             }
             break;
           // go right
-          case "mama":
+          case rightWord:
             switch (dest) {
               case DEST_CENTER:
                 dest = DEST_RIGHT;
