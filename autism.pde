@@ -1,10 +1,14 @@
 import processing.sound.*;
+import rita.*;
+
+final float difficulty = 0.5;
+final String leftWord  = "left";
+final String rightWord = "right";
+String[] leftWordPhonemes = split (RiTa.phones (leftWord), "-");
+String[] rightWordPhonemes = split (RiTa.phones (rightWord), "-");
 
 Ship ship;
 Star star;
-
-final String leftWord = "cat";
-final String rightWord = "mama";
 
 final int DEST_CENTER = 0;
 final int DEST_LEFT = 1;
@@ -72,40 +76,39 @@ void draw () {
     String lastLine = lines [lines.length - 1];
     String[] words = lastLine.split (" ");
     if (words.length > 0) {
-      String lastWord = words [words.length - 1];
+      String lastWord = (words [words.length - 1]);
       if (lines.length != numLines && words.length != numWords) {
         numLines = lines.length;
         numWords = words.length;
-        println ("last word: " + lastWord);
-        switch (lastWord.toLowerCase ()) {
+        String[] lastWordPhonemes = split (RiTa.phones (lastWord), "-");
+
+        println ("last word: \"" + lastWord + "\" phonemes: " + interpolate (lastWordPhonemes, ", ") + ".");
+        if (wordSoundsLike (difficulty, leftWordPhonemes, lastWordPhonemes)) {
           // go left
-          case leftWord:
-            switch (dest) {
-              case DEST_CENTER:
-                dest = DEST_LEFT;
-                ship.dest = leftDest;
-                break;
-              case DEST_RIGHT:
-                dest = DEST_CENTER;
-                ship.dest = centerDest;
-                break;
-              default:
-            }
-            break;
+          switch (dest) {
+            case DEST_CENTER:
+              dest = DEST_LEFT;
+              ship.dest = leftDest;
+              break;
+            case DEST_RIGHT:
+              dest = DEST_CENTER;
+              ship.dest = centerDest;
+              break;
+            default:
+          }
+        } else if (wordSoundsLike (difficulty, rightWordPhonemes, lastWordPhonemes)) {
           // go right
-          case rightWord:
-            switch (dest) {
-              case DEST_CENTER:
-                dest = DEST_RIGHT;
-                ship.dest = rightDest;
-                break;
-              case DEST_LEFT:
-                dest = DEST_CENTER;
-                ship.dest = centerDest;
-                break;
-              default:
-            }
-            break;
+          switch (dest) {
+            case DEST_CENTER:
+              dest = DEST_RIGHT;
+              ship.dest = rightDest;
+              break;
+            case DEST_LEFT:
+              dest = DEST_CENTER;
+              ship.dest = centerDest;
+              break;
+            default:
+          }
         }
       }
     }
