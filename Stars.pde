@@ -1,13 +1,11 @@
 class Star {
   PImage img;
-  PVector pos, vel, dest;
+  PVector pos;
   float radius = 50;
 
   Star () {
     this.img = loadImage ("star.png");
-    this.img.resize (100, 100);
     this.pos = new PVector (width/2, 0);
-    this.vel = new PVector (0, 4);
   }
   
   void reset () {
@@ -25,17 +23,17 @@ class Star {
   }
   
   void move () {
-    this.pos.add (this.vel);
-    
-    if (this.pos.y > height + 100) {
-      this.reset ();
-    }
+    this.pos.y += Game.usingTimeAbility ? 1 : 4;
   }
 
   void render () {
-    imageMode (CENTER);
-    image (this.img, this.pos.x, this.pos.y);
-  }
+    pushMatrix ();
+    imageMode (CENTER);    
+    translate (this.pos.x, this.pos.y);
+    rotate (2 * PI * 0.3 * this.pos.y / height);
+    image (this.img, 0, 0);
+    popMatrix ();
+}
   
   boolean overlaps (PVector pos, float radius) {
     return PVector.dist (this.pos, pos) <= this.radius + radius;

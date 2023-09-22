@@ -4,11 +4,18 @@ import rita.*;
 final float difficulty = 0.5;
 final String leftWord  = "left";
 final String rightWord = "right";
+final String zoomAbilityWord = "zoom";
+final String timeAbilityWord = "slow";
+
 String[] leftWordPhonemes = split (RiTa.phones (leftWord), "-");
 String[] rightWordPhonemes = split (RiTa.phones (rightWord), "-");
+String[] zoomAbilityWordPhonemes = split (RiTa.phones (zoomAbilityWord), "-");
+String[] timeAbilityWordPhonemes = split (RiTa.phones (timeAbilityWord), "-");
 
 Ship ship;
 Star star;
+AIShip aiShip;
+TextBubble textBubble;
 
 final int DEST_CENTER = 0;
 final int DEST_LEFT = 1;
@@ -31,6 +38,9 @@ void setup () {
   size (1000, 1000);
   frameRate (100);
 
+  Game.zoomAbilityIcon = loadImage ("zoom_icon.png");
+  Game.timeAbilityIcon = loadImage ("time_icon.png");  
+  
   // Start the program that listens for verbal commands:
   println ("Start the Listen script in the background. It should be in the Sketch folder named listen.sh");
   println ("Say " + leftWord + " to fly left.");
@@ -42,10 +52,12 @@ void setup () {
   
   ship = new Ship ();
   star = new Star ();
+  aiShip = new AIShip ();
+  textBubble = new TextBubble ();
 
   backgroundMusic = new SoundFile (this, "soundtrack.mp3");
   backgroundMusic.loop ();
-  backgroundMusic.amp (0.5);
+  backgroundMusic.amp (0.05);
   backgroundMusic.play ();
 
   chime = new SoundFile (this, "chime.wav");
@@ -62,14 +74,73 @@ void draw () {
   starBackground.move ();
   starBackground.render ();
 
+  aiShip.move ();
+  aiShip.render ();
+  
   ship.move ();
-  ship.render ();  
+  ship.render ();
+  
   if (star.overlaps (ship.pos, ship.radius)) {
     chime.play ();
     star.reset ();
+    aiShip.moveDown ();
+    Game.health = min (5, Game.health + 1);
+    Game.score ++;
+    
+    if (Game.score % zoomAbilityThreshold == 0 && Game.zoomAbilityCounter <= 0) {
+      Game.hasZoomAbility = true;
+      Game.zoomAbilityCounter = 500;
+    }
+    if (Game.score % timeAbilityThreshold == 0 && Game.timeAbilityCounter <= 0) {
+      Game.hasTimeAbility = true;
+      Game.timeAbilityCounter = 500;
+    }
+  }
+  if (star.pos.y > height + 100) {
+    star.reset ();
+    aiShip.moveUp ();
+    Game.health = max (0, Game.health - 1);
+    Game.score = max (0, Game.score - 1);
+    if (Game.health <= 0) {
+      Game.hasZoomAbility = false;
+      Game.hasTimeAbility = false;
+      Game.zoomAbilityCounter = 0;
+      Game.timeAbilityCounter = 0;
+    }
+  }
+  if (aiShip.pos.y > height + aiShip.radius) {
+    aiShip.reset ();
+    Game.level ++;
+    if (Game.level % 5 == 0) {
+      textBubble.currentMessage ++;
+      textBubbleCounter = 500;
+    }
   }
   star.move ();
   star.render ();
+
+  if (textBubbleCounter > 0) {  textBubble.render (); }
+  textBubbleCounter --;
+
+  drawHealth ();
+  drawScore ();
+  drawChapter ();
+  drawAbilityIcons ();
+  
+  if (Game.usingTimeAbility && Game.timeAbilityCounter > 0) {
+    Game.timeAbilityCounter --;
+    if (Game.timeAbilityCounter <= 0) {
+      Game.usingTimeAbility = false;
+      Game.hasTimeAbility = false;
+    }
+  }
+  if (Game.usingZoomAbility && Game.zoomAbilityCounter > 0) {
+    Game.zoomAbilityCounter --;
+    if (Game.zoomAbilityCounter <= 0) {
+      Game.usingZoomAbility = false;
+      Game.hasZoomAbility = false;
+    }
+  }
 
   String[] lines = loadStrings ("/Users/larrylee/Documents/Processing/autism/transcript.txt");
   if (lines.length > 0) {
@@ -109,6 +180,10 @@ void draw () {
               break;
             default:
           }
+        } else if (wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
+          Game.usingTimeAbility = true;
+        } else if (wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
+          Game.usingZoomAbility = true;
         }
       }
     }
