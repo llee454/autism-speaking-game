@@ -16,13 +16,16 @@ final int zoomAbilityThreshold = 5;
 final int timeAbilityThreshold = 10;
 
 class Game {
+  JSONObject missions = loadJSONObject ("missions.json");
+  
   final PVector leftDest = new PVector (width/5, 3*height/4);
   final PVector rightDest = new PVector (4*width/5, 3*height/4);
   final PVector centerDest = new PVector (width/2, 3*height/4);
   
   PImage backgroundImage = loadImage ("background.jpg");
   Background starBackground  = new Background ();
-  TextBubble textBubble = new TextBubble ();
+  TextBubble textBubble;
+  Slide closing;
   
   Ship ship = new Ship ();
   Star star = new Star ();
@@ -40,9 +43,13 @@ class Game {
   int zoomAbilityCounter = 0;
   int timeAbilityCounter = 0;
 
-  Game () {
+  Game (int missionIndex) {
     this.zoomAbilityIcon = loadImage ("zoom_icon.png");
     this.timeAbilityIcon = loadImage ("time_icon.png");
+    
+    JSONObject mission = missions.getJSONArray ("missions").getJSONObject (missionIndex);    
+    textBubble = new TextBubble (mission.getJSONArray ("mission"));
+    closing = new Slide (mission.getJSONArray ("closing"));
   }
 
   // Draw the health meter.
@@ -217,6 +224,20 @@ class Game {
             this.usingZoomAbility = true;
           }
         }
+      }
+    }
+  }
+  
+  void render () {
+    if (this.level < 16) {
+      this.loop ();
+    } else {
+      this.closing.render ();
+      if (slideCounter == 0) {
+        this.closing.next ();
+        slideCounter = 500;
+      } else {
+        slideCounter --;
       }
     }
   }

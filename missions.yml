@@ -1,0 +1,15 @@
+missions:
+  - mission:
+      - avatar: boss_avatar.png
+        message: The race is on! May the best space pilot win!
+      - avatar: boss_avatar.png
+        message: Bah! You have passed many racers, but you won't catch me!
+      - avatar: boss_avatar.png
+        message: I see that you have made it! Finally, we can see who's the better pilot!
+      - avatar: boss_avatar.png
+        message: No!!! How have you beat me!?
+    closing:
+      - background: slide_background.png
+        avatar: boss_avatar.png
+        message: You Won!!! Congratulations on a Race Well Flown!
+      - message: For my friend King.
