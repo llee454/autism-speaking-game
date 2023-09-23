@@ -6,11 +6,15 @@
 int numLines = 0;
 int numWords = 0;
 
+final int PHASE_INTRO = 0;
+final int PHASE_GAME = 1;
+final int PHASE_CLOSE = 2;
+int phase = PHASE_INTRO;
+
 final int DEST_CENTER = 0;
 final int DEST_LEFT = 1;
 final int DEST_RIGHT = 2;
 int dest = DEST_CENTER;
-
 
 final int zoomAbilityThreshold = 5;
 final int timeAbilityThreshold = 10;
@@ -31,6 +35,7 @@ class Game {
   PImage backgroundImage = loadImage ("background.jpg");
   Background starBackground  = new Background ();
   TextBubble textBubble;
+  Slide intro;
   Slide closing;
   
   Ship ship = new Ship ();
@@ -53,6 +58,7 @@ class Game {
     
     JSONObject mission = missions.getJSONArray ("missions").getJSONObject (missionIndex);    
     textBubble = new TextBubble (mission.getJSONArray ("mission"));
+    intro = new Slide (mission.getJSONArray ("intro"));
     closing = new Slide (mission.getJSONArray ("closing"));
   }
 
@@ -220,9 +226,9 @@ class Game {
                 break;
               default:
             }
-          } else if (wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
+          } else if (this.hasTimeAbility && wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
             this.usingTimeAbility = true;
-          } else if (wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
+          } else if (this.hasZoomAbility && wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
             this.usingZoomAbility = true;
           }
         }
@@ -231,16 +237,34 @@ class Game {
   }
   
   void render () {
-    if (this.level < 16) {
-      this.loop ();
-    } else {
-      this.closing.render ();
-      if (slideCounter == 0) {
-        this.closing.next ();
-        slideCounter = 500;
-      } else {
-        slideCounter --;
-      }
-    }
+    switch (phase) {
+      case PHASE_INTRO:
+        this.intro.render ();
+        if (slideCounter == 0) {
+          if (this.intro.currentMessage >= this.intro.slides.size () - 1) {
+            phase ++;
+          }
+          this.intro.next ();
+          slideCounter = maxSlideCounter;
+        } else {
+          slideCounter --;
+        }
+        break;
+      case PHASE_GAME:
+        if (this.level < 15 || textBubbleCounter > 0) {
+          this.loop ();
+        } else {
+          phase ++;
+        }
+        break;
+      default:
+        this.closing.render ();
+        if (slideCounter == 0) {
+          this.closing.next ();
+          slideCounter = 10;
+        } else {
+          slideCounter --;
+        }
+   }
   }
 }

@@ -8,7 +8,7 @@ class Background {
     this.slide1 = loadImage ("star_background.png");
     this.slide2 = loadImage ("star_background.png");
     this.slide1_y = 0;
-    this.slide2_y = -1000;
+    this.slide2_y = -slide_height;
   }
   
   void move (boolean usingZoomAbility) {
@@ -23,8 +23,10 @@ class Background {
   }
 
   void render () {
+    pushMatrix ();
     imageMode (CORNER);
-    image (this.slide1, 0, this.slide1_y, width, height);
-    image (this.slide2, 0, this.slide2_y, width, height);
+    image (this.slide1, 0, this.slide1_y);
+    image (this.slide2, 0, this.slide2_y);
+    popMatrix ();
   }  
 }

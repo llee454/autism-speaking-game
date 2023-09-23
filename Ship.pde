@@ -22,6 +22,7 @@ class Ship {
     image (this.img, this.pos.x, this.pos.y);
     if (usingZoomAbility) {
       float scale = 1 - sq ((maxZoomAbilityCounter - zoomAbilityCounter) / maxZoomAbilityCounter);
+      noStroke ();
       translate (this.pos.x, this.pos.y + 30);
       ellipseMode (CENTER);
       fill (255);

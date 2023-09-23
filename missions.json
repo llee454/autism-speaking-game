@@ -1,6 +1,13 @@
 {
   "missions": [
     {
+      "intro": [
+        {
+          "background": "slide_background_space_garage.png",
+          "avatar": "mechanic_avatar.png",
+          "message": "The race is about to begin! Hurry, I got your race ship ready. I've installed some new special features that you might like. I'll tell you about them during the race."
+        }
+      ],
       "mission": [
         {
           "avatar": "boss_avatar.png",
@@ -22,7 +29,7 @@
       "closing": [
         {
           "background": "slide_background.png",
-          "avatar": "boss_avatar.png",
+          "avatar": "mechanic_avatar.png",
           "message": "You Won!!! Congratulations on a Race Well Flown!"
         },
         {

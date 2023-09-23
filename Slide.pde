@@ -1,4 +1,5 @@
-int slideCounter = 500;
+final int maxSlideCounter = 50;
+int slideCounter = maxSlideCounter;
 
 class Slide {
   int currentMessage = 0;
@@ -24,7 +25,8 @@ class Slide {
     }
     if (!slide.isNull ("avatar")) {
       imageMode (CORNER);
-      image (loadImage (slide.getString ("avatar")), 100, 100);
+      PImage avatar = loadImage (slide.getString ("avatar"));
+      image (avatar, 100, height - avatar.height - 100);
     }
     if (!slide.isNull ("message")) {
       int leftPadding = slide.isNull ("avatar") ? 100 : 400;
