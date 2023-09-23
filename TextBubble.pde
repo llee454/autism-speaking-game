@@ -1,6 +1,8 @@
 final int avatarImageHeight = 100;
 
-int textBubbleCounter = 500;
+final int maxTextBubbleCounter = 500;
+int textBubbleCounter = maxTextBubbleCounter;
+
 
 class TextBubble {
   int currentMessage = 0;

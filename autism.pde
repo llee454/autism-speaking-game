@@ -8,6 +8,7 @@ final String leftWord  = "left";
 final String rightWord = "right";
 final String zoomAbilityWord = "zoom";
 final String timeAbilityWord = "slow";
+final int zoomSpeed = 4;
 
 String[] leftWordPhonemes = split (RiTa.phones (leftWord), "-");
 String[] rightWordPhonemes = split (RiTa.phones (rightWord), "-");

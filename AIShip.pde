@@ -15,7 +15,7 @@ class AIShip {
     this.vel = PVector.sub (this.dest, this.pos);
     this.vel.setMag (min (this.vel.mag (), 1)); 
     this.pos.add (this.vel);
-    if (usingZoomAbility) { this.pos.y += 4; } 
+    if (usingZoomAbility) { this.pos.y += zoomSpeed; } 
   }
 
   void moveDown () {

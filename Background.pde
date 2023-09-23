@@ -11,13 +11,13 @@ class Background {
     this.slide2_y = -1000;
   }
   
-  void move () {
-    this.slide1_y += vel;
-    this.slide2_y += vel;
-    if (this.slide1_y == height) {
+  void move (boolean usingZoomAbility) {
+    this.slide1_y += usingZoomAbility ? zoomSpeed : vel;
+    this.slide2_y += usingZoomAbility ? zoomSpeed : vel;
+    if (this.slide1_y >= height) {
       this.slide1_y = this.slide2_y - slide_height; 
     }
-    if (this.slide2_y == height) {
+    if (this.slide2_y >= height) {
       this.slide2_y = this.slide1_y - slide_height;
     }
   }

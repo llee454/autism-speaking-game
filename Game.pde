@@ -15,6 +15,12 @@ int dest = DEST_CENTER;
 final int zoomAbilityThreshold = 5;
 final int timeAbilityThreshold = 10;
 
+final int maxZoomAbilityCounter = 500;
+final int maxTimeAbilityCounter = 500;
+
+int zoomAbilityCounter = 0;
+int timeAbilityCounter = 0;
+
 class Game {
   JSONObject missions = loadJSONObject ("missions.json");
   
@@ -40,8 +46,6 @@ class Game {
   boolean hasTimeAbility = false;
   boolean usingZoomAbility = false;
   boolean usingTimeAbility = false;
-  int zoomAbilityCounter = 0;
-  int timeAbilityCounter = 0;
 
   Game (int missionIndex) {
     this.zoomAbilityIcon = loadImage ("zoom_icon.png");
@@ -85,7 +89,7 @@ class Game {
       ellipseMode(CENTER);
       translate (50, 100);
       if (this.hasZoomAbility) {
-        if (this.zoomAbilityCounter > 0) {
+        if (zoomAbilityCounter > 0) {
           fill (this.usingZoomAbility ? color (255, 150, 150) : 255);
           circle (0, 0, 50);
         }
@@ -94,7 +98,7 @@ class Game {
       }
       translate (80, 0);
       if (this.hasTimeAbility) {
-        if (this.timeAbilityCounter > 0) {
+        if (timeAbilityCounter > 0) {
           fill (this.usingTimeAbility ? color (255, 150, 150) : 255);
           circle (0, 0, 50);
         }
@@ -106,14 +110,14 @@ class Game {
   void loop () {
     background (this.backgroundImage);
 
-    this.starBackground.move ();
+    this.starBackground.move (this.usingZoomAbility);
     this.starBackground.render ();
 
     this.aiShip.move (this.usingZoomAbility);
     this.aiShip.render ();
   
     this.ship.move (this.usingZoomAbility);
-    this.ship.render ();
+    this.ship.render (this.usingZoomAbility);
 
     if (this.star.overlaps (this.ship.pos, this.ship.radius)) {
       chime.play ();
@@ -122,13 +126,13 @@ class Game {
       this.health = min (5, this.health + 1);
       this.score ++;
     
-      if (this.score % zoomAbilityThreshold == 0 && this.zoomAbilityCounter <= 0) {
+      if (this.score % zoomAbilityThreshold == 0 && zoomAbilityCounter <= 0) {
         this.hasZoomAbility = true;
-        this.zoomAbilityCounter = 500;
+        zoomAbilityCounter = maxZoomAbilityCounter;
       }
-      if (this.score % timeAbilityThreshold == 0 && this.timeAbilityCounter <= 0) {
+      if (this.score % timeAbilityThreshold == 0 && timeAbilityCounter <= 0) {
         this.hasTimeAbility = true;
-        this.timeAbilityCounter = 500;
+        timeAbilityCounter = maxTimeAbilityCounter;
       }
     }
     if (this.star.pos.y > height + 100) {
@@ -139,8 +143,8 @@ class Game {
       if (this.health <= 0) {
         this.hasZoomAbility = false;
         this.hasTimeAbility = false;
-        this.zoomAbilityCounter = 0;
-        this.timeAbilityCounter = 0;
+        zoomAbilityCounter = 0;
+        timeAbilityCounter = 0;
       }
     }
     if (this.aiShip.pos.y > height + this.aiShip.radius) {
@@ -148,7 +152,7 @@ class Game {
       this.level ++;
       if (this.level % 5 == 0) {
         this.textBubble.currentMessage ++;
-        textBubbleCounter = 500;
+        textBubbleCounter = maxTextBubbleCounter;
       }
     }
     this.star.move (this.usingTimeAbility);
@@ -162,16 +166,16 @@ class Game {
     this.drawChapter ();
     this.drawAbilityIcons ();
 
-    if (this.usingTimeAbility && this.timeAbilityCounter > 0) {
-      this.timeAbilityCounter --;
-      if (this.timeAbilityCounter <= 0) {
+    if (this.usingTimeAbility && timeAbilityCounter > 0) {
+      timeAbilityCounter --;
+      if (timeAbilityCounter == 0) {
         this.usingTimeAbility = false;
         this.hasTimeAbility = false;
       }
     }
-    if (this.usingZoomAbility && this.zoomAbilityCounter > 0) {
-      this.zoomAbilityCounter --;
-      if (this.zoomAbilityCounter <= 0) {
+    if (this.usingZoomAbility && zoomAbilityCounter > 0) {
+      zoomAbilityCounter --;
+      if (zoomAbilityCounter == 0) {
         this.usingZoomAbility = false;
         this.hasZoomAbility = false;
       }
@@ -190,7 +194,6 @@ class Game {
 
           println ("last word: \"" + lastWord + "\" phonemes: " + interpolate (lastWordPhonemes, ", ") + ".");
           if (wordSoundsLike (difficulty, leftWordPhonemes, lastWordPhonemes)) {
-            println ("going left");
             // go left
             switch (dest) {
               case DEST_CENTER:
@@ -205,7 +208,6 @@ class Game {
               default:
             }
           } else if (wordSoundsLike (difficulty, rightWordPhonemes, lastWordPhonemes)) {
-            println ("going right");
             // go right
             switch (dest) {
               case DEST_CENTER:

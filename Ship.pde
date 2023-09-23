@@ -16,8 +16,43 @@ class Ship {
     this.pos.add (this.vel);
   }
 
-  void render () {
+  void render (boolean usingZoomAbility) {
+    pushMatrix ();
     imageMode (CENTER);
     image (this.img, this.pos.x, this.pos.y);
+    if (usingZoomAbility) {
+      float scale = 1 - sq ((maxZoomAbilityCounter - zoomAbilityCounter) / maxZoomAbilityCounter);
+      translate (this.pos.x, this.pos.y + 30);
+      ellipseMode (CENTER);
+      fill (255);
+      beginShape ();
+      vertex (0, -5);
+      bezierVertex (
+        -5 * scale, 0,
+        -5 * scale, 5,
+        -5 * scale, 0
+      );
+      bezierVertex (
+        0, 200 * scale,
+        0, 200 * scale,
+        0, 200 * scale
+      );
+      bezierVertex (
+        5 * scale, 5,
+        5 * scale, -5,
+        5 * scale, 0
+      );
+      bezierVertex (
+        0, -5,
+        0 * scale, -5,
+        0, -5
+      );
+      endShape ();
+      fill (204, 171, 204);
+      circle (0, 0, 30 * scale);
+      fill (234, 217, 209);
+      circle (0, 0, 20 * scale);
+    }
+    popMatrix ();
   }  
 }
