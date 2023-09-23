@@ -10,12 +10,12 @@ class AIShip {
     this.dest = this.pos.copy ();
   }
   
-  void move () {
+  void move (boolean usingZoomAbility) {
     this.dest.x = (2 * width / 5) * sin (2 * 2 * PI * this.pos.y / height) + (width/2); 
     this.vel = PVector.sub (this.dest, this.pos);
     this.vel.setMag (min (this.vel.mag (), 1)); 
     this.pos.add (this.vel);
-    if (Game.usingZoomAbility) { this.pos.y += 4; } 
+    if (usingZoomAbility) { this.pos.y += 4; } 
   }
 
   void moveDown () {

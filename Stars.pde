@@ -22,8 +22,8 @@ class Star {
       }
   }
   
-  void move () {
-    this.pos.y += Game.usingTimeAbility ? 1 : 4;
+  void move (boolean usingTimeAbility) {
+    this.pos.y += usingTimeAbility ? 1 : 4;
   }
 
   void render () {

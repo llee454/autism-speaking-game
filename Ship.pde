@@ -10,9 +10,9 @@ class Ship {
     this.dest = this.pos.copy ();
   }
   
-  void move () {
+  void move (boolean usingZoomAbility) {
     this.vel = PVector.sub (this.dest, this.pos);
-    this.vel.setMag (min (this.vel.mag (), Game.usingZoomAbility ? 50 : 5)); 
+    this.vel.setMag (min (this.vel.mag (), usingZoomAbility ? 50 : 5)); 
     this.pos.add (this.vel);
   }
 
