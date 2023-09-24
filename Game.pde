@@ -6,6 +6,8 @@
 int numLines = 0;
 int numWords = 0;
 
+final int numRacersPerMessage = 3;
+
 final int PHASE_INTRO = 0;
 final int PHASE_GAME = 1;
 final int PHASE_CLOSE = 2;
@@ -156,7 +158,7 @@ class Game {
     if (this.aiShip.pos.y > height + this.aiShip.radius) {
       this.aiShip.reset ();
       this.level ++;
-      if (this.level % 5 == 0) {
+      if (this.level % numRacersPerMessage == 0) {
         this.textBubble.currentMessage ++;
         textBubbleCounter = maxTextBubbleCounter;
       }
