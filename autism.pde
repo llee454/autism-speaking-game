@@ -22,7 +22,7 @@ void setup () {
   size (1000, 1000);
   frameRate (100);
   
-  game = new Game (0);
+  game = new Game ();
 
   // Start the program that listens for verbal commands:
   println ("Start the Listen script in the background. It should be in the Sketch folder named listen.sh");

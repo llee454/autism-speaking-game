@@ -29,6 +29,7 @@ int timeAbilityCounter = 0;
 
 class Game {
   JSONObject missions = loadJSONObject ("missions.json");
+  int missionIndex = 0;
   
   final PVector leftDest = new PVector (width/5, 3*height/4);
   final PVector rightDest = new PVector (4*width/5, 3*height/4);
@@ -54,7 +55,7 @@ class Game {
   boolean usingZoomAbility = false;
   boolean usingTimeAbility = false;
 
-  Game (int missionIndex) {
+  Game () {
     this.zoomAbilityIcon = loadImage ("zoom_icon.png");
     this.timeAbilityIcon = loadImage ("time_icon.png");
     
@@ -238,6 +239,19 @@ class Game {
     }
   }
   
+  void nextChapter () {
+    println ("number of missions: " + nf (this.missions.size ()));
+    if (this.missionIndex <= this.missions.size () - 1) {
+      phase = PHASE_INTRO;
+      this.missionIndex ++;
+      
+      JSONObject mission = missions.getJSONArray ("missions").getJSONObject (missionIndex);
+      textBubble = new TextBubble (mission.getJSONArray ("mission"));
+      intro = new Slide (mission.getJSONArray ("intro"));
+      closing = new Slide (mission.getJSONArray ("closing"));      
+    }
+  }
+  
   void render () {
     switch (phase) {
       case PHASE_INTRO:
@@ -253,7 +267,7 @@ class Game {
         }
         break;
       case PHASE_GAME:
-        if (this.level < 15 || textBubbleCounter > 0) {
+        if (this.level < this.textBubble.textBubbleMessages.length || textBubbleCounter > 0) {
           this.loop ();
         } else {
           phase ++;
@@ -262,8 +276,14 @@ class Game {
       default:
         this.closing.render ();
         if (slideCounter == 0) {
-          this.closing.next ();
-          slideCounter = 10;
+            println ("Done slide");
+          if (this.closing.currentMessage == this.closing.slides.size () - 1) {
+            println ("Next chapter");
+            this.nextChapter ();
+          } else {
+            this.closing.next ();
+            slideCounter = 10;
+          }
         } else {
           slideCounter --;
         }

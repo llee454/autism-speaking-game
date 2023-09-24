@@ -60,6 +60,56 @@
           "background": "slide_background.png",
           "avatar": "mechanic_avatar.png",
           "message": "You Won!!! Congratulations on a Race Well Flown!"
+        }
+      ]
+    },
+    {
+      "intro": [
+        {
+          "background": "slide_background_space_garage.png",
+          "avatar": "mechanic_avatar.png",
+          "message": "After we won that last race, I went ahead and updated the space ship."
+        },
+        {
+          "background": "slide_background_space_garage.png",
+          "avatar": "ship_avatar.png",
+          "message": "With the money we won, I added a better radio and engines. Isn't she beautiful."
+        },
+        {
+          "background": "slide_background_space_garage.png",
+          "avatar": "mechanic_avatar.png",
+          "message": "By the way, the next race, you'll have to race the robot again. Just keep flying like you did last time, and I know that you'll win. I know you can do it. See you at the finish line!"
+        },
+        {
+          "background": "title_screen.png"
+        }
+      ],
+      "mission": [
+        {
+          "avatar": "boss_avatar.png",
+          "message": "So we meet again! Let's see if you can beat my new spaceship!"
+        },
+        {
+          "avatar": "mechanic_avatar.png",
+          "message": "You're doing great! Keep it up. Don't forget to use your \"ZOOM\" and \"SLOW!\""
+        },
+        {
+          "avatar": "boss_avatar.png",
+          "message": "Ha! Let's see what you're made of!"
+        },
+        {
+          "avatar": "boss_avatar.png",
+          "message": "No! Not again!"
+        }
+      ],
+      "closing": [
+        {
+          "background": "slide_background.png",
+          "avatar": "mechanic_avatar.png",
+          "message": "You did it! We did it! We make a great team, don't we!"
+        },
+        {
+          "message": "The End!"
         },
         {
           "message": "For my friend King."
