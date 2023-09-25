@@ -7,7 +7,7 @@ missions:
         message: The race is about to begin! Hurry, I got your race ship ready. I've installed some new special features that you might like.
       - background: slide_background_space_garage.png
         avatar: ship1_avatar.png
-        message: You remember how to fly it right? To fly left, say "LEFT" To fly right say "RIGHT."
+        message: You remember how to fly it right? To fly left, say "LEFT." To fly right say "RIGHT."
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
         message: You need to collect stars to fly. Whenever you see a star, fly over to it and catch it. This will give a boost and help you pass the other racers.

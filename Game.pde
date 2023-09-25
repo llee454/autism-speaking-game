@@ -62,6 +62,14 @@ class Game {
     this.timeAbilityIcon = loadImage ("time_icon.png");
     startChapter ();
   }
+  
+  int getNumLevels () {
+    return currMission.getJSONArray ("levels").size ();
+  }
+  
+  boolean isLastLevel () {
+    return this.level == getNumLevels () - 1;
+  }  
 
   void startLevel () {
     textBubbleCounter = maxTextBubbleCounter;
@@ -77,16 +85,8 @@ class Game {
     }
   }
   
-  int getNumLevels () {
-    return currMission.getJSONArray ("levels").size ();
-  }
-  
-  boolean isLastLevel () {
-    return this.level == getNumLevels () - 1;
-  }
-  
   void nextLevel () {
-    if (this.level < getNumLevels ()) {
+    if (this.level < getNumLevels () - 1) {
       this.level ++;
       startLevel ();
     }
