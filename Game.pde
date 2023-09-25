@@ -29,6 +29,8 @@ int timeAbilityCounter = 0;
 
 class Game {
   JSONObject missions = loadJSONObject ("missions.json");
+  JSONObject currMission;
+  JSONObject currLevel;
   int missionIndex = 0;
   
   final PVector leftDest = new PVector (width/5, 3*height/4);
@@ -37,13 +39,13 @@ class Game {
   
   PImage backgroundImage = loadImage ("background.jpg");
   Background starBackground  = new Background ();
-  TextBubble textBubble;
   Slide intro;
   Slide closing;
   
-  Ship ship = new Ship ();
+  Ship ship;
   Star star = new Star ();
-  AIShip aiShip = new AIShip ();
+  AIShip aiShip;
+  TextBubble textBubble;
   
   int level = 0;
   int health = 5;
@@ -58,11 +60,55 @@ class Game {
   Game () {
     this.zoomAbilityIcon = loadImage ("zoom_icon.png");
     this.timeAbilityIcon = loadImage ("time_icon.png");
-    
-    JSONObject mission = missions.getJSONArray ("missions").getJSONObject (missionIndex);    
-    textBubble = new TextBubble (mission.getJSONArray ("mission"));
-    intro = new Slide (mission.getJSONArray ("intro"));
-    closing = new Slide (mission.getJSONArray ("closing"));
+    startChapter ();
+  }
+
+  void startLevel () {
+    textBubbleCounter = maxTextBubbleCounter;
+    this.currLevel = currMission.getJSONArray ("levels").getJSONObject (level);
+    if (!this.currLevel.isNull ("ai_ship")) {
+      this.aiShip = new AIShip (loadImage (this.currLevel.getString ("ai_ship")));
+    }
+    if (!this.currLevel.isNull ("message")) {
+      this.textBubble = new TextBubble (
+        loadImage (this.currLevel.getString ("avatar")),
+        this.currLevel.getString ("message")
+      );
+    }
+  }
+  
+  int getNumLevels () {
+    return currMission.getJSONArray ("levels").size ();
+  }
+  
+  boolean isLastLevel () {
+    return this.level == getNumLevels () - 1;
+  }
+  
+  void nextLevel () {
+    if (this.level < getNumLevels ()) {
+      this.level ++;
+      startLevel ();
+    }
+  }
+  
+  void startChapter () {
+    this.level = 0;
+    this.score = 0;
+    this.currMission = missions.getJSONArray ("missions").getJSONObject (missionIndex);
+    this.currLevel = currMission.getJSONArray ("levels").getJSONObject (level);
+    this.ship = new Ship (loadImage (currMission.getString ("ship")));
+    this.intro = new Slide (currMission.getJSONArray ("intro"));
+    this.closing = new Slide (currMission.getJSONArray ("closing"));
+    this.startLevel ();
+  }
+  
+  void nextChapter () {
+    if (this.missionIndex <= this.missions.size () - 1) {
+      phase = PHASE_INTRO;
+      this.missionIndex ++;
+      startChapter ();
+    }
   }
 
   // Draw the health meter.
@@ -122,16 +168,19 @@ class Game {
     this.starBackground.move (this.usingZoomAbility);
     this.starBackground.render ();
 
-    this.aiShip.move (this.usingZoomAbility);
-    this.aiShip.render ();
-  
+    if (this.aiShip != null) {
+      this.aiShip.move (this.usingZoomAbility);
+      this.aiShip.render ();
+    }
     this.ship.move (this.usingZoomAbility);
     this.ship.render (this.usingZoomAbility);
 
     if (this.star.overlaps (this.ship.pos, this.ship.radius)) {
       chime.play ();
       this.star.reset ();
-      this.aiShip.moveDown ();
+      if (this.aiShip != null) {
+        this.aiShip.moveDown ();
+      }
       this.health = min (5, this.health + 1);
       this.score ++;
     
@@ -143,8 +192,8 @@ class Game {
         this.hasTimeAbility = true;
         timeAbilityCounter = maxTimeAbilityCounter;
       }
-    }
-    if (this.star.pos.y > height + 100) {
+    }  
+    if (this.star.pos.y > height + 100) {      
       this.star.reset ();
       this.aiShip.moveUp ();
       this.health = max (0, this.health - 1);
@@ -156,19 +205,10 @@ class Game {
         timeAbilityCounter = 0;
       }
     }
-    if (this.aiShip.pos.y > height + this.aiShip.radius) {
-      this.aiShip.reset ();
-      this.level ++;
-      if (this.level % numRacersPerMessage == 0) {
-        this.textBubble.currentMessage ++;
-        textBubbleCounter = maxTextBubbleCounter;
-      }
-    }
     this.star.move (this.usingTimeAbility);
     this.star.render ();
 
-    if (textBubbleCounter > 0) {  this.textBubble.render (); }
-    textBubbleCounter --;
+    if (this.textBubble != null) {  this.textBubble.render (); }
 
     this.drawHealth ();
     this.drawScore ();
@@ -237,22 +277,13 @@ class Game {
         }
       }
     }
-  }
-  
-  void nextChapter () {
-    println ("number of missions: " + nf (this.missions.size ()));
-    if (this.missionIndex <= this.missions.size () - 1) {
-      phase = PHASE_INTRO;
-      this.missionIndex ++;
-      
-      JSONObject mission = missions.getJSONArray ("missions").getJSONObject (missionIndex);
-      textBubble = new TextBubble (mission.getJSONArray ("mission"));
-      intro = new Slide (mission.getJSONArray ("intro"));
-      closing = new Slide (mission.getJSONArray ("closing"));      
+    if (this.aiShip != null && this.aiShip.pos.y > height + this.aiShip.radius) {
+      this.nextLevel ();
     }
   }
   
   void render () {
+
     switch (phase) {
       case PHASE_INTRO:
         this.intro.render ();
@@ -267,10 +298,10 @@ class Game {
         }
         break;
       case PHASE_GAME:
-        if (this.level < this.textBubble.textBubbleMessages.length || textBubbleCounter > 0) {
-          this.loop ();
-        } else {
+        if (this.isLastLevel () && textBubbleCounter == 0) {
           phase ++;
+        } else {
+          this.loop ();
         }
         break;
       default:

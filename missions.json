@@ -1,6 +1,7 @@
 {
   "missions": [
     {
+      "ship": "ship1.png",
       "intro": [
         {
           "background": "title_screen.png"
@@ -12,7 +13,7 @@
         },
         {
           "background": "slide_background_space_garage.png",
-          "avatar": "ship_avatar.png",
+          "avatar": "ship1_avatar.png",
           "message": "You remember how to fly it right? To fly left, say \"LEFT\" To fly right say \"RIGHT.\""
         },
         {
@@ -29,24 +30,29 @@
           "background": "title_screen.png"
         }
       ],
-      "mission": [
+      "levels": [
         {
+          "ai_ship": "ai_ship1.png",
           "avatar": "boss_avatar.png",
           "message": "The race is on! May the best space pilot win!"
         },
         {
+          "ai_ship": "ai_ship1.png",
           "avatar": "mechanic_avatar_small.png",
           "message": "I installed a new booster. Whenever you collect 5 stars, say \"ZOOM!\" to use it."
         },
         {
+          "ai_ship": "ai_ship1.png",
           "avatar": "boss_avatar.png",
           "message": "Bah! You have passed many racers, but you won't catch me!"
         },
         {
+          "ai_ship": "ai_ship1.png",
           "avatar": "mechanic_avatar_small.png",
           "message": "I also installed a time warp. Whenever you collect 10 stars, say \"SLOW!\" to use it."
         },
         {
+          "ai_ship": "ai_boss_ship1.png",
           "avatar": "boss_avatar.png",
           "message": "I see that you have made it! Finally, we can see who's the better pilot!"
         },
@@ -64,6 +70,7 @@
       ]
     },
     {
+      "ship": "ship2.png",
       "intro": [
         {
           "background": "slide_background_space_garage.png",
@@ -72,7 +79,7 @@
         },
         {
           "background": "slide_background_space_garage.png",
-          "avatar": "ship_avatar.png",
+          "avatar": "ship2_avatar.png",
           "message": "With the money we won, I added a better radio and engines. Isn't she beautiful."
         },
         {
@@ -84,16 +91,19 @@
           "background": "title_screen.png"
         }
       ],
-      "mission": [
+      "levels": [
         {
+          "ai_ship": "ai_ship2.png",
           "avatar": "boss_avatar.png",
           "message": "So we meet again! Let's see if you can beat my new spaceship!"
         },
         {
-          "avatar": "mechanic_avatar.png",
+          "ai_ship": "ai_ship2.png",
+          "avatar": "mechanic_avatar_small.png",
           "message": "You're doing great! Keep it up. Don't forget to use your \"ZOOM\" and \"SLOW!\""
         },
         {
+          "ai_ship": "ai_boss_ship2.png",
           "avatar": "boss_avatar.png",
           "message": "Ha! Let's see what you're made of!"
         },

@@ -3,8 +3,8 @@ class AIShip {
   PVector pos, vel, dest;
   float radius = 50;
 
-  AIShip () {
-    this.img = loadImage ("ai_ship.png");
+  AIShip (PImage img) {
+    this.img = img;
     this.pos = new PVector (width/2, -height/4);
     this.vel = new PVector (0, 0);
     this.dest = this.pos.copy ();
