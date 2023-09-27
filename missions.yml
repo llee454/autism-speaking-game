@@ -10,7 +10,10 @@ missions:
         message: You remember how to fly it right? To fly left, say "LEFT." To fly right say "RIGHT."
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: You need to collect stars to fly. Whenever you see a star, fly over to it and catch it. This will give a boost and help you pass the other racers.
+        message: You need to collect stars to fly. Whenever you see a star, fly over to it and catch it.
+      - background: slide_background_space_garage.png
+        avatar: mechanic_avatar.png
+        message: This will give a boost and help you pass the other racers.
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
         message: Good luck! I believe in you.
@@ -47,7 +50,7 @@ missions:
         message: With the money we won, I added a better radio and engines. Isn't she beautiful.
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: By the way, the next race, you'll have to race the robot again. Just keep flying like you did last time, and I know that you'll win. I know you can do it. See you at the finish line!
+        message: By the way, the next race, you'll have to race the robot again. Just keep flying like you did last time. See you at the finish line!
       - background: title_screen.png
     levels:
       - ai_ship: ai_ship2.png
@@ -64,6 +67,36 @@ missions:
     closing: 
       - background: slide_background.png
         avatar: mechanic_avatar.png
-        message: You did it! We did it! We make a great team, don't we!
+        message: You did it! We did it! There's one more race this season. Let's see if I can upgrade our ship again.
+  - ship: ship3.png
+    intro: 
+      - background: slide_background_space_garage.png
+        avatar: mechanic_avatar.png
+        message: Ok, check out what I was able to put together.
+      - background: slide_background_space_garage.png
+        avatar: ship3_avatar.png
+        message: It's amazing isn't it? I added a new feature called BIG.
+      - background: slide_background_space_garage.png
+        avatar: mechanic_avatar.png
+        message: When flying, say "BIG" and you'll be able to catch stars that are far away.
+      - background: slide_background_space_garage.png
+        avatar: mechanic_avatar.png
+        message: Good luck! See you at the finish line!
+    levels:
+      - ai_ship: ai_ship2.png
+        avatar: boss_avatar.png
+        message: So we meet again! Let's see if you can beat my new spaceship!
+      - ai_ship: ai_ship2.png
+        avatar: mechanic_avatar_small.png
+        message: You're doing great! Keep it up. Don't forget to use your "ZOOM" and "SLOW!"
+      - ai_ship: ai_boss_ship3.png
+        avatar: boss_avatar.png
+        message: Ha! Let's see what you're made of!
+      - avatar: boss_avatar.png
+        message: No! Not again!
+    closing: 
+      - background: slide_background.png
+        avatar: mechanic_avatar.png
+        message: We did it! Well that's it for this racing season. You flew very well. Now, time for some well deserved time off. Catch you next season!
       - message: The End!
       - message: For my friend King.

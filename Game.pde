@@ -76,12 +76,16 @@ class Game {
     this.currLevel = currMission.getJSONArray ("levels").getJSONObject (level);
     if (!this.currLevel.isNull ("ai_ship")) {
       this.aiShip = new AIShip (loadImage (this.currLevel.getString ("ai_ship")));
+    } else {
+      this.aiShip = null;
     }
     if (!this.currLevel.isNull ("message")) {
       this.textBubble = new TextBubble (
         loadImage (this.currLevel.getString ("avatar")),
         this.currLevel.getString ("message")
       );
+    } else {
+      this.textBubble = null;
     }
   }
   
@@ -195,7 +199,9 @@ class Game {
     }  
     if (this.star.pos.y > height + 100) {      
       this.star.reset ();
-      this.aiShip.moveUp ();
+      if (this.aiShip != null) { 
+        this.aiShip.moveUp ();
+      }
       this.health = max (0, this.health - 1);
       this.score = max (0, this.score - 1);
       if (this.health <= 0) {

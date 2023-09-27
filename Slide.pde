@@ -31,7 +31,7 @@ class Slide {
     if (!slide.isNull ("message")) {
       int leftPadding = slide.isNull ("avatar") ? 100 : 400;
       fill (255);
-      textSize (24);
+      textSize (48);
       text (slide.getString ("message"), leftPadding + 50, 150, width - 200 - leftPadding, height - 300);
     }
     popMatrix ();
