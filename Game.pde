@@ -28,6 +28,8 @@ int zoomAbilityCounter = 0;
 int timeAbilityCounter = 0;
 
 class Game {
+  boolean isPaused = false;
+  
   JSONObject missions = loadJSONObject ("missions.json");
   JSONObject currMission;
   JSONObject currLevel;
@@ -168,123 +170,128 @@ class Game {
   
   void loop () {
     background (this.backgroundImage);
-
-    this.starBackground.move (this.usingZoomAbility);
-    this.starBackground.render ();
-
-    if (this.aiShip != null) {
-      this.aiShip.move (this.usingZoomAbility);
-      this.aiShip.render ();
-    }
-    this.ship.move (this.usingZoomAbility);
-    this.ship.render (this.usingZoomAbility);
-
-    if (this.star.overlaps (this.ship.pos, this.ship.radius)) {
-      chime.play ();
-      this.star.reset ();
-      if (this.aiShip != null) {
-        this.aiShip.moveDown ();
-      }
-      this.health = min (5, this.health + 1);
-      this.score ++;
     
-      if (this.score % zoomAbilityThreshold == 0 && zoomAbilityCounter <= 0) {
-        this.hasZoomAbility = true;
-        zoomAbilityCounter = maxZoomAbilityCounter;
-      }
-      if (this.score % timeAbilityThreshold == 0 && timeAbilityCounter <= 0) {
-        this.hasTimeAbility = true;
-        timeAbilityCounter = maxTimeAbilityCounter;
-      }
-    }  
-    if (this.star.pos.y > height + 100) {      
-      this.star.reset ();
-      if (this.aiShip != null) { 
-        this.aiShip.moveUp ();
-      }
-      this.health = max (0, this.health - 1);
-      this.score = max (0, this.score - 1);
-      if (this.health <= 0) {
-        this.hasZoomAbility = false;
-        this.hasTimeAbility = false;
-        zoomAbilityCounter = 0;
-        timeAbilityCounter = 0;
-      }
-    }
-    this.star.move (this.usingTimeAbility);
-    this.star.render ();
+    if (isPaused) {
+      textSize(48);
+      text ("Paused", width/2, height/2);
+    } else {
+      this.starBackground.move (this.usingZoomAbility);
+      this.starBackground.render ();
 
-    if (this.textBubble != null) {  this.textBubble.render (); }
-
-    this.drawHealth ();
-    this.drawScore ();
-    this.drawChapter ();
-    this.drawAbilityIcons ();
-
-    if (this.usingTimeAbility && timeAbilityCounter > 0) {
-      timeAbilityCounter --;
-      if (timeAbilityCounter == 0) {
-        this.usingTimeAbility = false;
-        this.hasTimeAbility = false;
+      if (this.aiShip != null) {
+        this.aiShip.move (this.usingZoomAbility);
+        this.aiShip.render ();
       }
-    }
-    if (this.usingZoomAbility && zoomAbilityCounter > 0) {
-      zoomAbilityCounter --;
-      if (zoomAbilityCounter == 0) {
-        this.usingZoomAbility = false;
-        this.hasZoomAbility = false;
+      this.ship.move (this.usingZoomAbility);
+      this.ship.render (this.usingZoomAbility);
+
+      if (this.star.overlaps (this.ship.pos, this.ship.radius)) {
+        chime.play ();
+        this.star.reset ();
+        if (this.aiShip != null) {
+          this.aiShip.moveDown ();
+        }
+        this.health = min (5, this.health + 1);
+        this.score ++;
+    
+        if (this.score % zoomAbilityThreshold == 0 && zoomAbilityCounter <= 0) {
+          this.hasZoomAbility = true;
+          zoomAbilityCounter = maxZoomAbilityCounter;
+        }
+        if (this.score % timeAbilityThreshold == 0 && timeAbilityCounter <= 0) {
+          this.hasTimeAbility = true;
+          timeAbilityCounter = maxTimeAbilityCounter;
+        }
+      }  
+      if (this.star.pos.y > height + 100) {      
+        this.star.reset ();
+        if (this.aiShip != null) { 
+          this.aiShip.moveUp ();
+        }
+        this.health = max (0, this.health - 1);
+        this.score = max (0, this.score - 1);
+        if (this.health <= 0) {
+          this.hasZoomAbility = false;
+          this.hasTimeAbility = false;
+          zoomAbilityCounter = 0;
+          timeAbilityCounter = 0;
+        }
       }
-    }
+      this.star.move (this.usingTimeAbility);
+      this.star.render ();
 
-    String[] lines = loadStrings ("/Users/larrylee/Documents/Processing/autism/transcript.txt");
-    if (lines.length > 0) {
-      String lastLine = lines [lines.length - 1];
-      String[] words = lastLine.split (" ");
-      if (words.length > 0) {
-        String lastWord = (words [words.length - 1]);
-        if (lines.length != numLines && words.length != numWords) {
-          numLines = lines.length;
-          numWords = words.length;
-          String[] lastWordPhonemes = split (RiTa.phones (lastWord), "-");
+      if (this.textBubble != null) {  this.textBubble.render (); }
 
-          println ("last word: \"" + lastWord + "\" phonemes: " + interpolate (lastWordPhonemes, ", ") + ".");
-          if (wordSoundsLike (difficulty, leftWordPhonemes, lastWordPhonemes)) {
-            // go left
-            switch (dest) {
-              case DEST_CENTER:
-                dest = DEST_LEFT;
-                println ("left dest: " + nf (leftDest.x) + ", " + nf (leftDest.y));
-                this.ship.dest = leftDest;
-                break;
-              case DEST_RIGHT:
-                dest = DEST_CENTER;
-                this.ship.dest = centerDest;
-                break;
-              default:
+      this.drawHealth ();
+      this.drawScore ();
+      this.drawChapter ();
+      this.drawAbilityIcons ();
+
+      if (this.usingTimeAbility && timeAbilityCounter > 0) {
+        timeAbilityCounter --;
+        if (timeAbilityCounter == 0) {
+          this.usingTimeAbility = false;
+          this.hasTimeAbility = false;
+        }
+      }
+      if (this.usingZoomAbility && zoomAbilityCounter > 0) {
+        zoomAbilityCounter --;
+        if (zoomAbilityCounter == 0) {
+          this.usingZoomAbility = false;
+          this.hasZoomAbility = false;
+        }
+      }
+
+      String[] lines = loadStrings ("/Users/larrylee/Documents/Processing/autism/transcript.txt");
+      if (lines.length > 0) {
+        String lastLine = lines [lines.length - 1];
+        String[] words = lastLine.split (" ");
+        if (words.length > 0) {
+          String lastWord = (words [words.length - 1]);
+          if (lines.length != numLines && words.length != numWords) {
+            numLines = lines.length;
+            numWords = words.length;
+            String[] lastWordPhonemes = split (RiTa.phones (lastWord), "-");
+
+            println ("last word: \"" + lastWord + "\" phonemes: " + interpolate (lastWordPhonemes, ", ") + ".");
+            if (wordSoundsLike (difficulty, leftWordPhonemes, lastWordPhonemes)) {
+              // go left
+              switch (dest) {
+                case DEST_CENTER:
+                  dest = DEST_LEFT;
+                  println ("left dest: " + nf (leftDest.x) + ", " + nf (leftDest.y));
+                  this.ship.dest = leftDest;
+                  break;
+                case DEST_RIGHT:
+                  dest = DEST_CENTER;
+                  this.ship.dest = centerDest;
+                  break;
+                default:
+              }
+            } else if (wordSoundsLike (difficulty, rightWordPhonemes, lastWordPhonemes)) {
+              // go right
+              switch (dest) {
+                case DEST_CENTER:
+                  dest = DEST_RIGHT;
+                  this.ship.dest = rightDest;
+                  break;
+                case DEST_LEFT:
+                  dest = DEST_CENTER;
+                  this.ship.dest = centerDest;
+                  break;
+                default:
+              }
+            } else if (this.hasTimeAbility && wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
+              this.usingTimeAbility = true;
+            } else if (this.hasZoomAbility && wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
+              this.usingZoomAbility = true;
             }
-          } else if (wordSoundsLike (difficulty, rightWordPhonemes, lastWordPhonemes)) {
-            // go right
-            switch (dest) {
-              case DEST_CENTER:
-                dest = DEST_RIGHT;
-                this.ship.dest = rightDest;
-                break;
-              case DEST_LEFT:
-                dest = DEST_CENTER;
-                this.ship.dest = centerDest;
-                break;
-              default:
-            }
-          } else if (this.hasTimeAbility && wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
-            this.usingTimeAbility = true;
-          } else if (this.hasZoomAbility && wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
-            this.usingZoomAbility = true;
           }
         }
       }
-    }
-    if (this.aiShip != null && this.aiShip.pos.y > height + this.aiShip.radius) {
-      this.nextLevel ();
+      if (this.aiShip != null && this.aiShip.pos.y > height + this.aiShip.radius) {
+        this.nextLevel ();
+      }
     }
   }
   

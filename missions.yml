@@ -64,12 +64,12 @@ missions:
         message: Ha! Let's see what you're made of!
       - avatar: boss_avatar.png
         message: No! Not again!
-    closing: 
+    closing:
       - background: slide_background.png
         avatar: mechanic_avatar.png
         message: You did it! We did it! There's one more race this season. Let's see if I can upgrade our ship again.
   - ship: ship3.png
-    intro: 
+    intro:
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
         message: Ok, check out what I was able to put together.

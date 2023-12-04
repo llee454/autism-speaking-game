@@ -1,3 +1,11 @@
+/*
+  Progress bar - how far in match
+  Pause Button for game
+  Menu for game save game status
+  Greatest Scores
+  Menu let the adult choose the word with a audio sample to let the parent hear the prounciation.
+  Let parents change the pronunciation at any time. Make a modal window.
+*/
 import processing.sound.*;
 import rita.*;
 
@@ -41,4 +49,10 @@ void setup () {
 
 void draw () {
   game.render ();
+}
+
+void keyReleased () {
+  if (key == 'p' || key == 'P') {
+    game.isPaused = !game.isPaused;
+  }
 }

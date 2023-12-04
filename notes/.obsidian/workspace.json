@@ -26,9 +26,19 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "8a520272e8238946",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.4.14"
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -155,7 +165,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4a5a48326964ba0e",
+  "active": "8a520272e8238946",
   "lastOpenFiles": [
     "Test Notes Sep 24 2023.md"
   ]
