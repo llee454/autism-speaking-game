@@ -65,12 +65,16 @@ class Game {
     startChapter ();
   }
   
-  int getNumLevels () {
-    return currMission.getJSONArray ("levels").size ();
+  int getNumMissions () {
+    return this.missions.getJSONArray ("missions").size ();
   }
   
+  int getNumLevels () {
+    return currMission.getJSONArray ("levels").size ();
+  }  
+  
   boolean isLastLevel () {
-    return this.level == getNumLevels () - 1;
+    return this.level >= getNumLevels () - 1;
   }  
 
   void startLevel () {
@@ -99,6 +103,7 @@ class Game {
   }
   
   void startChapter () {
+    println ("start chapter " + this.level + " mission " + missionIndex);
     this.level = 0;
     this.score = 0;
     this.currMission = missions.getJSONArray ("missions").getJSONObject (missionIndex);
@@ -110,7 +115,9 @@ class Game {
   }
   
   void nextChapter () {
-    if (this.missionIndex <= this.missions.size () - 1) {
+    int numMissions = this.getNumMissions ();
+    println ("called nextChapter " + this.missionIndex + " out of " + numMissions);
+    if (this.missionIndex < numMissions - 1) {
       phase = PHASE_INTRO;
       this.missionIndex ++;
       startChapter ();
@@ -168,6 +175,44 @@ class Game {
     popMatrix ();
   }
   
+  // move the player spaceship left
+  void moveLeft () {
+    switch (dest) {
+      case DEST_CENTER:
+        dest = DEST_LEFT;
+        this.ship.dest = leftDest;
+        break;
+      case DEST_RIGHT:
+        dest = DEST_CENTER;
+        this.ship.dest = centerDest;
+        break;
+      default:
+    }
+  }
+
+  // move the player spaceship right
+  void moveRight () {
+    switch (dest) {
+      case DEST_CENTER:
+        dest = DEST_RIGHT;
+        this.ship.dest = rightDest;
+        break;
+      case DEST_LEFT:
+        dest = DEST_CENTER;
+        this.ship.dest = centerDest;
+        break;
+      default:
+    }
+  }
+  
+  void activateZoomAbility () {
+    if (this.hasZoomAbility) { this.usingZoomAbility = true; }
+  }
+  
+  void activateTimeAbility () {
+    if (this.hasTimeAbility) { this.usingTimeAbility = true; }
+  }
+  
   void loop () {
     background (this.backgroundImage);
     
@@ -202,7 +247,7 @@ class Game {
           this.hasTimeAbility = true;
           timeAbilityCounter = maxTimeAbilityCounter;
         }
-      }  
+      }
       if (this.star.pos.y > height + 100) {      
         this.star.reset ();
         if (this.aiShip != null) { 
@@ -255,36 +300,13 @@ class Game {
 
             println ("last word: \"" + lastWord + "\" phonemes: " + interpolate (lastWordPhonemes, ", ") + ".");
             if (wordSoundsLike (difficulty, leftWordPhonemes, lastWordPhonemes)) {
-              // go left
-              switch (dest) {
-                case DEST_CENTER:
-                  dest = DEST_LEFT;
-                  println ("left dest: " + nf (leftDest.x) + ", " + nf (leftDest.y));
-                  this.ship.dest = leftDest;
-                  break;
-                case DEST_RIGHT:
-                  dest = DEST_CENTER;
-                  this.ship.dest = centerDest;
-                  break;
-                default:
-              }
+              this.moveLeft ();
             } else if (wordSoundsLike (difficulty, rightWordPhonemes, lastWordPhonemes)) {
-              // go right
-              switch (dest) {
-                case DEST_CENTER:
-                  dest = DEST_RIGHT;
-                  this.ship.dest = rightDest;
-                  break;
-                case DEST_LEFT:
-                  dest = DEST_CENTER;
-                  this.ship.dest = centerDest;
-                  break;
-                default:
-              }
-            } else if (this.hasTimeAbility && wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
-              this.usingTimeAbility = true;
-            } else if (this.hasZoomAbility && wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
-              this.usingZoomAbility = true;
+              this.moveRight ();
+            } else if (wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
+              this.activateTimeAbility ();
+            } else if (wordSoundsLike (difficulty, zoomAbilityWordPhonemes, lastWordPhonemes)) {
+              this.activateZoomAbility ();
             }
           }
         }
@@ -296,7 +318,6 @@ class Game {
   }
   
   void render () {
-
     switch (phase) {
       case PHASE_INTRO:
         this.intro.render ();
@@ -317,12 +338,10 @@ class Game {
           this.loop ();
         }
         break;
-      default:
+      default: // PHASE_CLOSE
         this.closing.render ();
         if (slideCounter == 0) {
-            println ("Done slide");
           if (this.closing.currentMessage == this.closing.slides.size () - 1) {
-            println ("Next chapter");
             this.nextChapter ();
           } else {
             this.closing.next ();
@@ -330,7 +349,8 @@ class Game {
           }
         } else {
           slideCounter --;
+          println ("slide counter " + slideCounter); // bug not starting chapter 3. Freezing on chapter 2 close.
         }
-   }
+     }
   }
 }

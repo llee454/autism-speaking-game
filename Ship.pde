@@ -1,7 +1,7 @@
 class Ship {
   PImage img;
   PVector pos, vel, dest;
-  float radius = 50; // 50;
+  float radius = 50; 
 
   Ship (PImage img) {
     this.img = img;

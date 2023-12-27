@@ -40,7 +40,6 @@ void setup () {
   backgroundMusic = new SoundFile (this, "soundtrack.mp3");
   backgroundMusic.loop ();
   backgroundMusic.amp (0.05);
-  backgroundMusic.play ();
 
   chime = new SoundFile (this, "chime.wav");
 
@@ -54,5 +53,23 @@ void draw () {
 void keyReleased () {
   if (key == 'p' || key == 'P') {
     game.isPaused = !game.isPaused;
+  }
+  // to skip or go to the "next" slide
+  if (key == 'n') {
+    if (phase == PHASE_INTRO) {
+      game.intro.next ();
+    } else if (phase == PHASE_CLOSE) {
+      game.closing.next ();
+    }
+  }
+  if (keyCode == LEFT && !game.isPaused) {
+    game.moveLeft ();
+  }
+  if (keyCode == RIGHT && !game.isPaused) {
+    game.moveRight ();
+  }
+  // manual trigger zoom ability
+  if (key == 'z') {
+     game.activateZoomAbility ();
   }
 }

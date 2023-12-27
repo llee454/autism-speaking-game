@@ -4,19 +4,16 @@ missions:
       - background: title_screen.png
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: The race is about to begin! Hurry, I got your race ship ready. I've installed some new special features that you might like.
+        message: Get ready, pilot! The space race is about to begin!
       - background: slide_background_space_garage.png
         avatar: ship1_avatar.png
-        message: You remember how to fly it right? To fly left, say "LEFT." To fly right say "RIGHT."
+        message: Use your voice to fly your ship. To fly left, say "LEFT." To fly right, say "RIGHT."
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: You need to collect stars to fly. Whenever you see a star, fly over to it and catch it.
+        message: Collect stars to fly faster! When you see a star, try to catch it.
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: This will give a boost and help you pass the other racers.
-      - background: slide_background_space_garage.png
-        avatar: mechanic_avatar.png
-        message: Good luck! I believe in you.
+        message: Good luck out there! I believe in you!
       - background: title_screen.png
     levels:
       - ai_ship: ai_ship1.png
@@ -24,79 +21,85 @@ missions:
         message: The race is on! May the best space pilot win!
       - ai_ship: ai_ship1.png
         avatar: mechanic_avatar_small.png
-        message: I installed a new booster. Whenever you collect 5 stars, say "ZOOM!" to use it.
+        message: Don't forget to use your Zoom Boost! When you collect 5 stars, say "ZOOM!" to speed past the other racers!
       - ai_ship: ai_ship1.png
         avatar: boss_avatar.png
-        message: Bah! You have passed many racers, but you won't catch me!
+        message: Bah! You've pulled ahead of the rest, but you won't catch me!
       - ai_ship: ai_ship1.png
         avatar: mechanic_avatar_small.png
-        message: I also installed a time warp. Whenever you collect 10 stars, say "SLOW!" to use it.
+        message: Uh oh, Rocketor is passing you by! Your Time Shifter can slow down the race and buy you some time.  When you collect 10 stars, say "SLOW!
       - ai_ship: ai_boss_ship1.png
         avatar: boss_avatar.png
         message: I see that you have made it! Finally, we can see who's the better pilot!
       - avatar: boss_avatar.png
-        message: No!!! How have you beat me!?
+        message: You ... you've beaten me! Impossible!
     closing:
       - background: slide_background.png
         avatar: mechanic_avatar.png
-        message: You Won!!! Congratulations on a Race Well Flown!
+        message: You won! Congratulations on a race well flown!
   - ship: ship2.png
     intro:
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: After we won that last race, I went ahead and updated the space ship.
+        message: Rocketor's blown a gasket! He's ready for a rematch, but so are we!
       - background: slide_background_space_garage.png
         avatar: ship2_avatar.png
         message: With the money we won, I added a better radio and engines. Isn't she beautiful.
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: By the way, the next race, you'll have to race the robot again. Just keep flying like you did last time. See you at the finish line!
+        message: By the way, the next race, you'll have to race Rocketor again. Just keep flying like you did last time. See you at the finish line!
       - background: title_screen.png
     levels:
       - ai_ship: ai_ship2.png
         avatar: boss_avatar.png
-        message: So we meet again! Let's see if you can beat my new spaceship!
+        message: So, we meet again. My new ship will leave you in the stardust!
       - ai_ship: ai_ship2.png
         avatar: mechanic_avatar_small.png
-        message: You're doing great! Keep it up. Don't forget to use your "ZOOM" and "SLOW!"
+        message: You're doing great! Don't forget to say "ZOOM" and "SLOW" when it counts.
       - ai_ship: ai_boss_ship2.png
         avatar: boss_avatar.png
-        message: Ha! Let's see what you're made of!
+        message: Hah! Let's see what you're made of!
       - avatar: boss_avatar.png
-        message: No! Not again!
+        message: Blast! Not again!
     closing:
       - background: slide_background.png
         avatar: mechanic_avatar.png
-        message: You did it! We did it! There's one more race this season. Let's see if I can upgrade our ship again.
+        message: We did it! We're not done just yet. We'll need something big to win next time.
   - ship: ship3.png
     intro:
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: Ok, check out what I was able to put together.
+        message: Are you ready for one last race? It's our greatest challenge yet, so I've got a giant-sized surprise
       - background: slide_background_space_garage.png
         avatar: ship3_avatar.png
-        message: It's amazing isn't it? I added a new feature called BIG.
+        message: Amazing, isn't it? I call it the Magni-Flyer.
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
-        message: When flying, say "BIG" and you'll be able to catch stars that are far away.
+        message: Say “BIG” to make your ship bigger. This will help you catch faraway stars!
       - background: slide_background_space_garage.png
         avatar: mechanic_avatar.png
         message: Good luck! See you at the finish line!
     levels:
       - ai_ship: ai_ship2.png
         avatar: boss_avatar.png
-        message: So we meet again! Let's see if you can beat my new spaceship!
+        message: So, you've got new tricks? Big deal! You won't win again, I'll see to that!
       - ai_ship: ai_ship2.png
         avatar: mechanic_avatar_small.png
-        message: You're doing great! Keep it up. Don't forget to use your "ZOOM" and "SLOW!"
+        message: You're doing great! Don't forget to say “ZOOM" and "SLOW” when it counts.
+      - ai_ship: ai_ship2.png
+        avatar: mechanic_avatar_small.png
+        message: Sometimes, you have to be the bigger person. Say “BIG” to get those hard to reach stars!
       - ai_ship: ai_boss_ship3.png
         avatar: boss_avatar.png
-        message: Ha! Let's see what you're made of!
+        message: Silly human, don't mock the great Rocketor!
       - avatar: boss_avatar.png
-        message: No! Not again!
-    closing: 
+        message: No! It can't be!
+    closing:
+      - background: slide_background.png
+        avatar: boss_avatar.png
+        message: You beat me three times, fair and square. You are the best Space Racer.
       - background: slide_background.png
         avatar: mechanic_avatar.png
-        message: We did it! Well that's it for this racing season. You flew very well. Now, time for some well deserved time off. Catch you next season!
+        message: We did it! We're Space Race champions! Now it's time for some well deserved rest! See you next time! Fly high, Space Racer!
       - message: The End!
       - message: For my friend King.
