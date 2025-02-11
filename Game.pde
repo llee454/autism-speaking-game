@@ -288,7 +288,7 @@ class Game {
       }
 
       String[] lines = loadStrings ("/Users/larrylee/Documents/Processing/autism/transcript.txt");
-      if (lines.length > 0) {
+      if (lines != null && lines.length > 0) {
         String lastLine = lines [lines.length - 1];
         String[] words = lastLine.split (" ");
         if (words.length > 0) {
