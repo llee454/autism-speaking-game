@@ -345,7 +345,7 @@ class Game {
             this.nextChapter ();
           } else {
             this.closing.next ();
-            slideCounter = 10;
+            slideCounter = maxSlideCounter;
           }
         } else {
           slideCounter --;

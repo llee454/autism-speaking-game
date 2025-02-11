@@ -5,6 +5,8 @@
   Greatest Scores
   Menu let the adult choose the word with a audio sample to let the parent hear the prounciation.
   Let parents change the pronunciation at any time. Make a modal window.
+  Add a finish line sprite that you fly past at the end of all missions after passing the boss.
+  music fade out at the end of the game.
 */
 import processing.sound.*;
 import rita.*;

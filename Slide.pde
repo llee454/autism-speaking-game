@@ -1,4 +1,4 @@
-final int maxSlideCounter = 75;
+final int maxSlideCounter = 150;
 int slideCounter = maxSlideCounter;
 
 class Slide {
