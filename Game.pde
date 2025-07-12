@@ -27,6 +27,8 @@ final int maxTimeAbilityCounter = 500;
 int zoomAbilityCounter = 0;
 int timeAbilityCounter = 0;
 
+String lastRecordedWord = "";
+
 class Game {
   boolean isPaused = false;
   
@@ -287,21 +289,30 @@ class Game {
         }
       }
 
-      String[] lines = loadStrings ("/Users/larrylee/Documents/Processing/autism/transcript.txt");
+      String[] lines = loadStrings ("/Users/annasimons/Documents/Processing/autism-speaking-game-main/data/transcript.txt");
       if (lines != null && lines.length > 0) {
         String lastLine = lines [lines.length - 1];
         String[] words = lastLine.split (" ");
         if (words.length > 0) {
-          String lastWord = (words [words.length - 1]);
-          if (lines.length != numLines && words.length != numWords) {
+          String lastWord = (words [words.length - 1]).toLowerCase ();
+          text (lastWord, (width - textWidth(lastWord))/2, textAscent() + 20);
+          boolean newWordSpoken = false;
+          if (!lastWord.equals (lastRecordedWord)) {
+            newWordSpoken = true;
+          }
+          if (lines.length != numLines || words.length != numWords) {
+            newWordSpoken = true;
             numLines = lines.length;
             numWords = words.length;
+          }
+          if (newWordSpoken) {
+            lastRecordedWord = lastWord;
             String[] lastWordPhonemes = split (RiTa.phones (lastWord), "-");
-
-            println ("last word: \"" + lastWord + "\" phonemes: " + interpolate (lastWordPhonemes, ", ") + ".");
             if (wordSoundsLike (difficulty, leftWordPhonemes, lastWordPhonemes)) {
+              println ("moving left");
               this.moveLeft ();
             } else if (wordSoundsLike (difficulty, rightWordPhonemes, lastWordPhonemes)) {
+              println ("moving right");
               this.moveRight ();
             } else if (wordSoundsLike (difficulty, timeAbilityWordPhonemes, lastWordPhonemes)) {
               this.activateTimeAbility ();
