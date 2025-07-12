@@ -13,7 +13,7 @@ import rita.*;
 
 Game game;
 
-final float difficulty = 0.5;
+final float difficulty = 0.8;
 final String leftWord  = "left";
 final String rightWord = "right";
 final String zoomAbilityWord = "zoom";
@@ -29,7 +29,8 @@ SoundFile backgroundMusic;
 SoundFile chime;
 
 void setup () {
-  size (1000, 1000);
+  pixelDensity(1);
+  size (800, 800);
   frameRate (100);
   
   game = new Game ();
